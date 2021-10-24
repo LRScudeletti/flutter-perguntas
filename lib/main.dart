@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import './questao.dart';
+import 'package:projeto_perguntas/questionario.dart';
+import 'package:projeto_perguntas/resultado.dart';
 
 void main() => runApp(PerguntasApp());
 
@@ -12,35 +13,58 @@ class PerguntasApp extends StatefulWidget {
 
 class _PerguntasAppState extends State<PerguntasApp> {
   var _perguntaSelecionada = 0;
+  final _perguntas = const [
+    {
+      "texto": "Qual é o seu animal favorito?",
+      "respostas": [
+        {"texto": "Cachorro", "nota": 5},
+        {"texto": "Gato", "nota": 8},
+        {"texto": "Cavalo", "nota": 10},
+        {"texto": "Coelho", "nota": 7}
+      ]
+    },
+    {
+      "texto": "Qual sua cor favorita?",
+      "respostas": [
+        {"texto": "Verde", "nota": 9},
+        {"texto": "Amarelo", "nota": 10},
+        {"texto": "Azul", "nota": 8},
+        {"texto": "Rosa", "nota": 5}
+      ]
+    },
+    {
+      "texto": "Qual seu time favorito?",
+      "respostas": [
+        {"texto": "Palmeiras", "nota": 6},
+        {"texto": "Santos", "nota": 7},
+        {"texto": "Botafogo", "nota": 4},
+        {"texto": "Vasco", "nota": 10}
+      ]
+    }
+  ];
 
   void _responder() {
     setState(() {
       _perguntaSelecionada++;
     });
-    print(_perguntaSelecionada);
+  }
+
+  bool get temPerguntaSelecionada {
+    return _perguntaSelecionada < _perguntas.length;
   }
 
   @override
   Widget build(BuildContext context) {
-    final perguntas = [
-      "Qual é o seu animal favorito?",
-      "Qual sua cor favorita?"
-    ];
-
     return MaterialApp(
         home: Scaffold(
             appBar: AppBar(
               title: Text("PerguntasApp"),
             ),
-            body: Column(
-              children: <Widget>[
-                Questao(perguntas.elementAt(_perguntaSelecionada)),
-                ElevatedButton(
-                    onPressed: _responder, child: Text("Reposta 01")),
-                ElevatedButton(
-                    onPressed: _responder, child: Text("Reposta 02")),
-                ElevatedButton(onPressed: _responder, child: Text("Reposta 03"))
-              ],
-            )));
+            body: temPerguntaSelecionada
+                ? Questionario(
+                    perguntas: _perguntas,
+                    perguntaSelecionada: _perguntaSelecionada,
+                    quandoResponder: _responder)
+                : Resultado()));
   }
 }
