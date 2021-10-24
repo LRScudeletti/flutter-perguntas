@@ -13,39 +13,49 @@ class PerguntasApp extends StatefulWidget {
 
 class _PerguntasAppState extends State<PerguntasApp> {
   var _perguntaSelecionada = 0;
+  int _pontuacaoTotal = 0;
+
   final _perguntas = const [
     {
       "texto": "Qual é o seu animal favorito?",
       "respostas": [
-        {"texto": "Cachorro", "nota": 5},
-        {"texto": "Gato", "nota": 8},
-        {"texto": "Cavalo", "nota": 10},
-        {"texto": "Coelho", "nota": 7}
+        {"texto": "Cachorro", "pontuacao": 2},
+        {"texto": "Gato", "pontuacao": 3},
+        {"texto": "Cavalo", "pontuacao": 5},
+        {"texto": "Coelho", "pontuacao": 7}
       ]
     },
     {
       "texto": "Qual sua cor favorita?",
       "respostas": [
-        {"texto": "Verde", "nota": 9},
-        {"texto": "Amarelo", "nota": 10},
-        {"texto": "Azul", "nota": 8},
-        {"texto": "Rosa", "nota": 5}
+        {"texto": "Verde", "pontuacao": 5},
+        {"texto": "Amarelo", "pontuacao": 3},
+        {"texto": "Azul", "pontuacao": 2},
+        {"texto": "Rosa", "pontuacao": 6}
       ]
     },
     {
       "texto": "Qual seu time favorito?",
       "respostas": [
-        {"texto": "Palmeiras", "nota": 6},
-        {"texto": "Santos", "nota": 7},
-        {"texto": "Botafogo", "nota": 4},
-        {"texto": "Vasco", "nota": 10}
+        {"texto": "Palmeiras", "pontuacao": 6},
+        {"texto": "Santos", "pontuacao": 7},
+        {"texto": "Botafogo", "pontuacao": 4},
+        {"texto": "Vasco", "pontuacao": 3}
       ]
     }
   ];
 
-  void _responder() {
+  void _responder(int pontuacao) {
     setState(() {
       _perguntaSelecionada++;
+      _pontuacaoTotal += pontuacao;
+    });
+  }
+
+  void _reiniciarQuestionario() {
+    setState(() {
+      _perguntaSelecionada = 0;
+      _pontuacaoTotal = 0;
     });
   }
 
@@ -65,6 +75,6 @@ class _PerguntasAppState extends State<PerguntasApp> {
                     perguntas: _perguntas,
                     perguntaSelecionada: _perguntaSelecionada,
                     quandoResponder: _responder)
-                : Resultado()));
+                : Resultado(_pontuacaoTotal, _reiniciarQuestionario)));
   }
 }
